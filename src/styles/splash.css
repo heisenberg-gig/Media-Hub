@@ -1,29 +1,36 @@
 .splash {
   position: absolute; inset: 0; z-index: 50;
-  background: var(--bg-0);
+  background: #000;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: opacity 350ms linear;
+  transition: opacity 380ms linear;
 }
 .splash--leave { opacity: 0; pointer-events: none; }
-.splash__center { display: flex; flex-direction: column; align-items: center; gap: 36px; margin-top: -60px; }
-
-.splash__mark {
-  opacity: 0; transform: scale(0.6) rotate(-12deg);
-  animation: mark-in 600ms var(--ease-spring) 100ms forwards;
+.splash__center {
+  transition: transform 520ms var(--ease-in-out), opacity 380ms linear;
+  margin-top: -50px;
 }
-.splash__word { display: flex; font-size: 64px; font-weight: 600; letter-spacing: 0.04em; }
-.splash__word span {
-  opacity: 0; transform: translateY(24px);
-  animation: letter-in 400ms var(--ease-out) forwards;
-  animation-delay: calc(450ms + var(--i) * 35ms);
-}
-.splash__dots { position: absolute; bottom: 220px; display: flex; gap: 14px; opacity: 0; animation: fade-in 300ms 700ms forwards; }
-.splash__dots i { position: relative; width: 12px; height: 12px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
-.splash__dots i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); opacity: 0; animation: dot 1s infinite linear; }
-.splash__dots i:nth-child(2)::after { animation-delay: 0.16s; }
-.splash__dots i:nth-child(3)::after { animation-delay: 0.32s; }
+/* saída: o logo cresce e esbate enquanto a Home faz o reveal por baixo */
+.splash--leave .splash__center { transform: scale(1.22); opacity: 0; }
 
-@keyframes mark-in { to { opacity: 1; transform: none; } }
-@keyframes letter-in { to { opacity: 1; transform: none; } }
+/* pulse (só transform/opacity) a partir do fim do fade-in, até a app estar pronta */
+.splash__pulse { position: relative; width: 320px; height: 320px; animation: pulse 1.8s ease-in-out 1.1s infinite; will-change: transform; }
+.splash__glow {
+  position: absolute; inset: -100px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(47, 107, 255, 0.40), rgba(240, 70, 122, 0.12) 60%, transparent);
+  opacity: 0; animation: glow 1.8s ease-in-out 1.1s infinite;
+}
+/* logo entra só com fade */
+.splash__mark { position: relative; display: block; opacity: 0; animation: mark-in 1000ms ease-out 150ms forwards; }
+
+/* pontos com as cores dos reflexos do logo: onda simples de escala/opacidade */
+.splash__dots { position: absolute; bottom: 170px; display: flex; gap: 18px; opacity: 0; animation: fade-in 500ms ease-out 900ms forwards; }
+.splash__dots i { width: 14px; height: 14px; border-radius: 50%; opacity: 0.35; animation: dot 1.2s ease-in-out infinite; }
+.splash__dots i:nth-child(1) { background: #2bb8f5; box-shadow: 0 0 18px rgba(43, 184, 245, 0.7); }
+.splash__dots i:nth-child(2) { background: #2f6bff; box-shadow: 0 0 18px rgba(47, 107, 255, 0.7); animation-delay: 0.2s; }
+.splash__dots i:nth-child(3) { background: #f0467a; box-shadow: 0 0 18px rgba(240, 70, 122, 0.7); animation-delay: 0.4s; }
+
+@keyframes mark-in { to { opacity: 1; } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.045); } }
+@keyframes glow { 0%, 100% { opacity: 0.15; transform: scale(0.92); } 50% { opacity: 0.75; transform: scale(1.06); } }
 @keyframes fade-in { to { opacity: 1; } }
-@keyframes dot { 0%, 100% { opacity: 0; transform: scale(1); } 35% { opacity: 1; transform: scale(1.35); } }
+@keyframes dot { 0%, 100% { opacity: 0.3; transform: scale(0.85); } 40% { opacity: 1; transform: scale(1.3); } }

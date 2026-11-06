@@ -14,3 +14,6 @@ import { initFocus } from './core/focus';
 
 initFocus();
 render(<App />, document.getElementById('app')!);
+
+// se chegámos aqui e nada rebentou durante 1.5 s, o boot loader deixa de reverter para o .ipk
+setTimeout(() => { window.__MH_OK = true; }, 1500);

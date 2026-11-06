@@ -19,7 +19,7 @@ export function Home() {
   ];
 
   return (
-    <div class="screen home" data-focus-memory="home">
+    <div class="screen home home--intro" data-focus-memory="home">
       <Background theme="live" />
       <Header />
       <main class="cards">

@@ -1,5 +1,5 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body, #app { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg-0); }
+html, body, #app { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
 body {
   font-family: 'Exo 2', system-ui, sans-serif;
   color: var(--text);
@@ -55,3 +55,6 @@ button:focus { outline: none; }
 .pill--on { border-color: var(--brand); }
 .pill[data-focused] { color: #14112e; transform: scale(1.06); }
 .pill[data-focused]::after { opacity: 1; }
+
+.pill--accent::before { background: var(--accent); }
+.circle .dot { position: absolute; top: 4px; right: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 3px solid #14112e; }

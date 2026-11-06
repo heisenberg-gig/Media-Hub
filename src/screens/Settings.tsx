@@ -4,10 +4,13 @@ import { IconBack } from '../ui/icons';
 import { lang, useT, type Lang } from '../i18n';
 import { focusFirst } from '../core/focus';
 import { goBack } from '../core/router';
+import { applyUpdate, checkForUpdate, runningInfo, update } from '../core/update';
 
 export function Settings() {
   const t = useT();
   const cur = lang.use();
+  const up = update.use();
+  const info = runningInfo();
   useEffect(() => { const id = setTimeout(() => focusFirst(), 300); return () => clearTimeout(id); }, []);
   const opts: { id: Lang; label: string }[] = [
     { id: 'pt-PT', label: t('portuguese') },
@@ -31,6 +34,34 @@ export function Settings() {
           ))}
         </div>
       </section>
+      <section class="setting setting--updates">
+        <h2>{t('updates')}</h2>
+        <p>{t('updatesHint')}</p>
+        <div class="setting__line">
+          {t('installed')}: <b>{info.version}</b>
+          <small>build {info.build} · {info.source === 'ota' ? t('fromUpdate') : t('fromPackage')}</small>
+        </div>
+        <div class={`setting__status ${up.status === 'error' ? 'setting__status--bad' : ''}`}>{statusText(up.status, t, up.latest)}</div>
+        <div class="setting__row">
+          {up.status === 'ready' ? (
+            <button class="pill pill--accent" data-focusable data-focus-id="restart" onClick={applyUpdate}>{t('restartUpdate')}</button>
+          ) : (
+            <button class="pill" data-focusable data-focus-id="check" onClick={checkForUpdate}>{t('checkUpdates')}</button>
+          )}
+        </div>
+      </section>
     </div>
   );
+}
+
+function statusText(st: string, t: (k: any) => string, latest?: string) {
+  switch (st) {
+    case 'checking': return t('checking');
+    case 'downloading': return `${t('downloading')} ${latest ?? ''}`;
+    case 'uptodate': return t('upToDate');
+    case 'ready': return `${t('updateReady')} ${latest ?? ''}`;
+    case 'needsIpk': return t('needsIpk');
+    case 'error': return t('updateError');
+    default: return '';
+  }
 }

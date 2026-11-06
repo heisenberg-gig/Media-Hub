@@ -6,6 +6,7 @@ import { Home } from './screens/Home';
 import { Placeholder } from './screens/Placeholder';
 import { Settings } from './screens/Settings';
 import { lang } from './i18n';
+import { checkForUpdate } from './core/update';
 
 const SPLASH_MS = 1900;
 
@@ -23,6 +24,13 @@ export function App() {
     return () => { clearTimeout(a); clearTimeout(b); };
   }, []);
 
+  // verificação automática de atualizações, já com a Home no ecrã
+  useEffect(() => {
+    if (phase !== 'ready') return;
+    const id = setTimeout(() => { void checkForUpdate(); }, 2500);
+    return () => clearTimeout(id);
+  }, [phase]);
+
   useEffect(() => {
     setActionHandler((a) => {
       if (phase !== 'ready' || busy.get()) return true; // engole input durante splash/transições
@@ -34,7 +42,12 @@ export function App() {
 
   return (
     <>
-      {phase !== 'splash' && <Screen name={r.name} />}
+      {phase !== 'splash' && <Home />}
+      {phase !== 'splash' && r.name !== 'home' && (
+        <div class="overlay" data-focus-scope>
+          <Screen name={r.name} />
+        </div>
+      )}
       {phase !== 'ready' && <Splash leaving={phase === 'leaving'} />}
     </>
   );
@@ -42,7 +55,7 @@ export function App() {
 
 function Screen({ name }: { name: RouteName }) {
   switch (name) {
-    case 'home': return <Home />;
+    case 'home': return null;
     case 'settings': return <Settings />;
     default: return <Placeholder name={name} />;
   }

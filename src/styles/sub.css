@@ -13,3 +13,9 @@
 .setting h2 { font-size: 38px; font-weight: 600; }
 .setting p { margin-top: 8px; font-size: 24px; color: var(--text-dim); }
 .setting__row { display: flex; gap: 24px; margin-top: 36px; }
+
+.setting--updates { top: 520px; }
+.setting__line { margin-top: 28px; font-size: 26px; color: var(--text); }
+.setting__line small { color: var(--text-dim); font-size: 22px; margin-left: 14px; }
+.setting__status { margin-top: 14px; font-size: 24px; color: var(--text-dim); min-height: 32px; }
+.setting__status--bad { color: #ff9b9b; }
