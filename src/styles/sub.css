@@ -1,4 +1,4 @@
-.sub.enter { animation: sub-in 500ms var(--ease-out) both; }
+.sub.enter { animation: sub-in 320ms var(--ease-out) backwards; }
 @keyframes sub-in { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
 
 .sub__top { position: absolute; top: 56px; left: var(--gutter); right: var(--gutter); display: flex; align-items: center; gap: 28px; }

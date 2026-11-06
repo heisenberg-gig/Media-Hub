@@ -39,7 +39,10 @@ export function focusEl(el: HTMLElement | null, opts: { scroll?: boolean } = {})
   if (el) {
     el.setAttribute(FOCUS_ATTR, '');
     el.focus({ preventScroll: true });
-    if (opts.scroll !== false) el.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (opts.scroll !== false) {
+      const r = el.getBoundingClientRect();
+      if (r.top < 0 || r.left < 0 || r.bottom > innerHeight || r.right > innerWidth) el.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
     const id = el.getAttribute('data-focus-id');
     const scope = el.closest('[data-focus-memory]')?.getAttribute('data-focus-memory');
     if (id && scope) memory.set(scope, id);

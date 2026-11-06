@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { onFocusChange } from '../core/focus';
 
 // Cada cartão tem o seu "clima" de cor. Mais tarde: artwork real desfocado.
@@ -8,35 +8,37 @@ export const THEMES: Record<string, string> = {
   radios: 'radial-gradient(60% 70% at 70% 30%, #12707a 0%, transparent 70%), radial-gradient(50% 60% at 20% 80%, #2f4fb8 0%, transparent 70%)',
   neutral: 'radial-gradient(60% 70% at 70% 30%, #2a2470 0%, transparent 70%), radial-gradient(50% 60% at 20% 80%, #16205e 0%, transparent 70%)',
 };
+const KEYS = Object.keys(THEMES);
+// vinheta + base ficam dentro de cada camada: camadas opacas, e menos uma camada de ecrã inteiro a misturar
+const VIGNETTE = 'radial-gradient(120% 100% at 50% 40%, transparent 40%, rgba(5,4,15,.55) 100%)';
+const BASE = 'linear-gradient(160deg, #16132e, #0d0b1f)';
+const layerBg = (k: string) => `${VIGNETTE}, ${THEMES[k]}, ${BASE}`;
 
-/** Duas camadas em crossfade (só opacidade → barato na GPU da TV). */
+/**
+ * Todas as camadas são pintadas UMA vez (gradientes de ecrã inteiro são caros de rasterizar)
+ * e o crossfade só alterna opacidade → corre na GPU sem repintar nada.
+ */
 export function Background({ theme = 'neutral' }: { theme?: string }) {
-  const [layers, setLayers] = useState<[string, string]>([theme, theme]);
-  const [top, setTop] = useState(0);
+  const [active, setActive] = useState(theme);
 
   useEffect(() => {
-    return onFocusChange((el) => {
+    setActive(theme);
+    let timer = 0;
+    const off = onFocusChange((el) => {
       const t = el?.getAttribute('data-theme');
-      if (t && THEMES[t]) swap(t);
+      if (!t || !THEMES[t]) return;
+      // só troca o fundo quando o foco "assenta": em navegação rápida só os cartões animam
+      clearTimeout(timer);
+      timer = window.setTimeout(() => setActive(t), 240);
     });
-  }, []);
-
-  const topRef = useRef(0);
-  const themeRef = useRef(theme);
-  function swap(t: string) {
-    if (t === themeRef.current) return;
-    themeRef.current = t;
-    const next = 1 - topRef.current;
-    topRef.current = next;
-    setLayers((l) => { const n: [string, string] = [...l] as [string, string]; n[next] = t; return n; });
-    setTop(next);
-  }
+    return () => { off(); clearTimeout(timer); };
+  }, [theme]);
 
   return (
     <div class="bg" aria-hidden="true">
-      <div class="bg__layer" style={{ background: THEMES[layers[0]], opacity: top === 0 ? 1 : 0 }} />
-      <div class="bg__layer" style={{ background: THEMES[layers[1]], opacity: top === 1 ? 1 : 0 }} />
-      <div class="bg__vignette" />
+      {KEYS.map((k) => (
+        <div class="bg__layer" style={{ background: layerBg(k), opacity: k === active ? 1 : 0 }} />
+      ))}
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { Placeholder } from './screens/Placeholder';
 import { Settings } from './screens/Settings';
 import { lang } from './i18n';
 
-const SPLASH_MS = 2600;
+const SPLASH_MS = 1900;
 
 export function App() {
   const r = route.use();
@@ -19,7 +19,7 @@ export function App() {
   useEffect(() => {
     // aqui, nas próximas fases, carregam-se playlists/IndexedDB durante o splash
     const a = setTimeout(() => setPhase('leaving'), SPLASH_MS);
-    const b = setTimeout(() => setPhase('ready'), SPLASH_MS + 500);
+    const b = setTimeout(() => setPhase('ready'), SPLASH_MS + 350);
     return () => { clearTimeout(a); clearTimeout(b); };
   }, []);
 
