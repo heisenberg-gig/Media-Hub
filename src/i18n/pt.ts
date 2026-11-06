@@ -1,0 +1,23 @@
+export const pt = {
+  appName: 'Media Hub',
+  search: 'Pesquisar',
+  voice: 'Pesquisa por voz',
+  settings: 'Definições',
+  profile: 'Perfil',
+  liveTv: 'TV em Direto',
+  movies: 'Filmes e Séries',
+  radios: 'Rádios',
+  liveSub: 'Canais em direto',
+  moviesSub: 'Filmes e séries',
+  radiosSub: 'Estações de rádio',
+  noPlaylist: 'Sem playlist',
+  comingSoon: 'Em breve',
+  comingSoonText: 'Este ecrã chega numa das próximas fases.',
+  back: 'Voltar',
+  language: 'Idioma',
+  languageHint: 'Escolhe o idioma da interface',
+  portuguese: 'Português (PT)',
+  english: 'English',
+  loading: 'A carregar',
+} as const;
+export type Dict = { [K in keyof typeof pt]: string };

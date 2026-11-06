@@ -1,0 +1,23 @@
+import type { Dict } from './pt';
+export const en: Dict = {
+  appName: 'Media Hub',
+  search: 'Search',
+  voice: 'Voice search',
+  settings: 'Settings',
+  profile: 'Profile',
+  liveTv: 'Live TV',
+  movies: 'Movies & Series',
+  radios: 'Radios',
+  liveSub: 'Live channels',
+  moviesSub: 'Movies and series',
+  radiosSub: 'Radio stations',
+  noPlaylist: 'No playlist',
+  comingSoon: 'Coming soon',
+  comingSoonText: 'This screen arrives in an upcoming phase.',
+  back: 'Back',
+  language: 'Language',
+  languageHint: 'Choose the interface language',
+  portuguese: 'Português (PT)',
+  english: 'English',
+  loading: 'Loading',
+};

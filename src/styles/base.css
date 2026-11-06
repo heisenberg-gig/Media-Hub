@@ -1,0 +1,44 @@
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body, #app { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg-0); }
+body {
+  font-family: 'Exo 2', system-ui, sans-serif;
+  color: var(--text);
+  user-select: none;
+  cursor: default;
+}
+button { font: inherit; color: inherit; background: none; border: 0; outline: none; cursor: pointer; text-align: left; }
+button:focus { outline: none; }
+
+.screen { position: absolute; inset: 0; overflow: hidden; }
+
+/* fundo: 2 camadas em crossfade */
+.bg { position: absolute; inset: 0; background: linear-gradient(160deg, var(--bg-1), var(--bg-0)); }
+.bg__layer { position: absolute; inset: 0; transition: opacity 700ms var(--ease-in-out); }
+.bg__vignette { position: absolute; inset: 0; background: radial-gradient(120% 100% at 50% 40%, transparent 40%, rgba(5, 4, 15, 0.55) 100%); }
+
+/* véus de transição (criados em router.ts) */
+.veil {
+  position: fixed; inset: 0; z-index: 100; pointer-events: all;
+  background: linear-gradient(160deg, #2a2470, #14112e);
+  will-change: clip-path, opacity;
+}
+.veil--dark { background: var(--bg-0); }
+
+/* botões redondos reutilizáveis */
+.circle {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--surface); color: var(--text);
+  transition: transform var(--d-med) var(--ease-out), background var(--d-med), box-shadow var(--d-med);
+}
+.circle[data-focused] { background: #fff; color: #14112e; transform: scale(1.14); box-shadow: 0 0 0 6px rgba(255,255,255,.18), 0 10px 30px rgba(0,0,0,.4); }
+.circle--avatar { background: linear-gradient(135deg, #ff3b4e, #c4162d); }
+.circle--avatar[data-focused] { background: linear-gradient(135deg, #ff5566, #e0243a); color: #fff; }
+
+.pill {
+  padding: 18px 40px; border-radius: 999px; font-size: 26px; font-weight: 500;
+  background: var(--surface); border: 2px solid transparent;
+  transition: transform var(--d-med) var(--ease-out), background var(--d-med), color var(--d-med);
+}
+.pill--on { border-color: var(--brand); }
+.pill[data-focused] { background: #fff; color: #14112e; transform: scale(1.06); }

@@ -1,0 +1,26 @@
+name: Build IPK
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: media-hub-ipk
+          path: release/*.ipk
+      - name: Publicar release com o .ipk
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="build-${{ github.run_number }}"
+          gh release create "$TAG" release/*.ipk --title "Media Hub $TAG" --notes "Build automática. Descarrega o .ipk e instala na TV." --latest
