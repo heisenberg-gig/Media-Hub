@@ -2,7 +2,7 @@
 .splash {
   position: absolute; inset: 0; z-index: 50; background: #000;
   display: flex; align-items: center; justify-content: center;
-  transition: opacity 800ms ease-in-out;
+  transition: opacity 600ms ease-in-out;
 }
 /* saída: fade simples — a Home já está montada por baixo e vai surgindo */
 .splash--leave { opacity: 0; pointer-events: none; }
@@ -12,12 +12,12 @@
 /* o logo entra com fade e depois "respira": o brilho sobe e desvanece */
 .splash__mark {
   position: relative; display: block; opacity: 0;
-  animation: mark-in 1000ms ease-out 150ms forwards, breathe 2s ease-in-out 1.15s infinite;
+  animation: mark-in 600ms ease-out 80ms forwards, breathe 1.4s ease-in-out 0.7s infinite;
 }
 .splash__glow {
   position: absolute; inset: -140px; border-radius: 50%; pointer-events: none;
   background: radial-gradient(closest-side, rgba(47, 107, 255, 0.55), rgba(240, 70, 122, 0.20) 55%, transparent);
-  opacity: 0; animation: glow 2s ease-in-out 1.15s infinite;
+  opacity: 0; animation: glow 1.4s ease-in-out 0.7s infinite;
 }
 
 @keyframes mark-in { to { opacity: 1; } }
