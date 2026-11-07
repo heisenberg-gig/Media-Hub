@@ -1,0 +1,16 @@
+{
+  "version": "0.2.1",
+  "build": 6,
+  "native": 1,
+  "js": {
+    "file": "app.js",
+    "sha256": "3fb530bbd66ec8e006b02ff4a2a4e22a6ae56b0d277503777276f80337ece60a",
+    "size": 33407
+  },
+  "css": {
+    "file": "app.css",
+    "sha256": "843397a1742d24d698e323f74b085176b04d5ab1320843526ec6f0fe664a8636",
+    "size": 9000
+  },
+  "builtAt": "2026-11-07T11:15:42.170Z"
+}
